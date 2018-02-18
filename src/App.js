@@ -54,7 +54,7 @@ class App extends React.Component {
       blogService.setToken(user.token)
     } catch(exception) {
       this.setState({
-        error: 'käyttäjätunnus tai salasana virheellinen',
+        error: 'Username or/and password is wrong',
       })
       setTimeout(() => {
         this.setState({ error: null })
@@ -81,7 +81,7 @@ class App extends React.Component {
       )
     } catch (exception) {
       this.setState({
-        error: 'Ei voikaan tehdä uutta blogia'
+        error: 'Cannot create a new blog'
       })
     }
     this.forceUpdate()    
