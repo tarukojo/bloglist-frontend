@@ -37,6 +37,7 @@ class App extends React.Component {
       })
   
       this.setState({ username: '', password: '', user})
+      blogService.setToken(user.token)
     } catch(exception) {
       this.setState({
         error: 'käyttäjätunnus tai salasana virheellinen',
