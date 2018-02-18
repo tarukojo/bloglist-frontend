@@ -5,6 +5,7 @@ import BlogForm from './components/Blogs'
 import CreateBlog from './components/CreateBlog'
 import loginService from './services/login'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 
 class App extends React.Component {
   constructor(props) {
@@ -93,14 +94,15 @@ class App extends React.Component {
   render() {
     return (
       <div>
-     <Notification message={this.state.message}/>   
+      <Notification message={this.state.message}/>   
       {this.state.user === null ?
+      <Togglable buttonLabel="Login">
       <LoginForm username={this.state.username} handleFieldChange={this.handleFieldChange}
-        password={this.state.password} login={this.login} /> :
+        password={this.state.password} login={this.login} /></Togglable> :
       <div>
         <p>{this.state.user.name} logged in</p> <form onSubmit={this.logout}><button type="submit" name="logout">Log out </button></form>
-        <CreateBlog createNew={this.createNew} handleFieldChange={this.handleFieldChange} 
-          title={this.state.title} author={this.state.author} url={this.state.url} />
+        <Togglable buttonLabel="Create blog"><CreateBlog createNew={this.createNew} handleFieldChange={this.handleFieldChange} 
+          title={this.state.title} author={this.state.author} url={this.state.url} /></Togglable>
         <BlogForm blogs={this.state.blogs} />
       </div>}
       </div>
