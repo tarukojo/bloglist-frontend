@@ -2,6 +2,7 @@ import React from 'react'
 import blogService from './services/blogs'
 import LoginForm from './components/Login'
 import BlogForm from './components/Blogs'
+import CreateBlog from './components/CreateBlog'
 import loginService from './services/login'
 import Notification from './components/Notification'
 
@@ -12,7 +13,11 @@ class App extends React.Component {
       blogs: [],
       username: '',
       password: '',
-      user: null
+      user: null,
+      title: '',
+      author: '', 
+      url: '',
+      message: ''
     }
   }
 
@@ -30,7 +35,7 @@ class App extends React.Component {
     }
   }
   
-  handleLoginFieldChange = (event) => {
+  handleFieldChange = (event) => {
     console.log("test ", event.target.value)
     this.setState({ [event.target.name]: event.target.value })
   }
@@ -65,15 +70,37 @@ class App extends React.Component {
     this.setState({ username: '', password: '', user: null})
   }
 
+  createNew = (event) => {
+    event.preventDefault()
+    console.log("Creating new blog item")
+    try {   
+      const blog = blogService.create({ 'title': this.state.title, 'author': this.state.author, 'url': this.state.url })
+
+      blogService.getAll().then(blogs =>
+        this.setState({ blogs: blogs, message: 'Created new blog'})
+      )
+    } catch (exception) {
+      this.setState({
+        error: 'Ei voikaan tehdä uutta blogia'
+      })
+    }
+    this.forceUpdate()    
+    setTimeout(() => {
+      this.setState({message: null})
+    }, 5000)
+  }
+
   render() {
     return (
       <div>
-     <Notification message={this.state.error}/>   
+     <Notification message={this.state.message}/>   
       {this.state.user === null ?
-      <LoginForm username={this.state.username} handleLoginFieldChange={this.handleLoginFieldChange}
+      <LoginForm username={this.state.username} handleFieldChange={this.handleFieldChange}
         password={this.state.password} login={this.login} /> :
       <div>
         <p>{this.state.user.name} logged in</p> <form onSubmit={this.logout}><button type="submit" name="logout">Log out </button></form>
+        <CreateBlog createNew={this.createNew} handleFieldChange={this.handleFieldChange} 
+          title={this.state.title} author={this.state.author} url={this.state.url} />
         <BlogForm blogs={this.state.blogs} />
       </div>}
       </div>
