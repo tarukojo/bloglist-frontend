@@ -22,10 +22,21 @@ class App extends React.Component {
     }
   }
 
-  componentDidMount() {
-    blogService.getAll().then(blogs =>
+  async componentDidMount() {
+    try {
+      const origBlogs = await blogService.getAll() 
+      const blogs = origBlogs.sort(function(a, b) {
+        return b.likes - a.likes
+      })
       this.setState({ blogs })
-    )
+    } catch (exception) {
+      this.setState({
+        error: 'Username or/and password is wrong',
+      })
+      setTimeout(() => {
+        this.setState({ error: null })
+      }, 5000)
+    }
     
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
