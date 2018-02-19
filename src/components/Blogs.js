@@ -5,7 +5,7 @@
   const BlogForm = ({blogs}) => (
     <div>
       
-        <h2>blogs</h2>
+        <h2>Blogs</h2>
 
           {blogs.map(blog => 
             <TogglableBlog title={blog.title} ref={component => this.blogKey = component}>

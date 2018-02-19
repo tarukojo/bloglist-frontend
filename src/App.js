@@ -52,6 +52,8 @@ class App extends React.Component {
   
       this.setState({ username: '', password: '', user})
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
+      console.log(user)
+
       blogService.setToken(user.token)
     } catch(exception) {
       this.setState({
@@ -104,7 +106,7 @@ class App extends React.Component {
         <p>{this.state.user.name} logged in</p> <form onSubmit={this.logout}><button type="submit" name="logout">Log out </button></form>
         <Togglable buttonLabel="Create blog" ref={component => this.createBlog = component}><CreateBlog createNew={this.createNew} handleFieldChange={this.handleFieldChange} 
           title={this.state.title} author={this.state.author} url={this.state.url} /></Togglable>
-        <BlogForm blogs={this.state.blogs} />
+        <BlogForm blogs={this.state.blogs}/>
       </div>}
       </div>
     );

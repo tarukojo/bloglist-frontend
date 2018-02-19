@@ -19,7 +19,7 @@ class TogglableBlog extends React.Component {
     const showWhenVisible = { display: this.state.visible ? '' : 'none' }
 
     return (
-      <div>
+      <div key={this.props.title}>
         <div style={hideWhenVisible}>
           <a href='#' onClick={this.toggleVisibility}>{this.props.title}</a>
         </div>
