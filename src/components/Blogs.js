@@ -1,17 +1,18 @@
   import React from 'react'
   import Blog from './Blog'
+  import TogglableBlog from './TogglableBlog';
 
   const BlogForm = ({blogs}) => (
     <div>
       
         <h2>blogs</h2>
-        <table>
-          <tbody>
+
           {blogs.map(blog => 
+            <TogglableBlog title={blog.title} ref={component => this.blogKey = component}>
             <Blog key={blog._id} blog={blog}/>
+            </TogglableBlog>
           )}
-          </tbody>
-        </table>
+
       </div>
   )
 

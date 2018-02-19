@@ -75,7 +75,7 @@ class App extends React.Component {
     event.preventDefault()
     console.log("Creating new blog item")
     try {   
-      const blog = blogService.create({ 'title': this.state.title, 'author': this.state.author, 'url': this.state.url })
+      blogService.create({ 'title': this.state.title, 'author': this.state.author, 'url': this.state.url })
 
       blogService.getAll().then(blogs =>
         this.setState({ blogs: blogs, message: 'Created new blog'})
@@ -85,7 +85,8 @@ class App extends React.Component {
         error: 'Cannot create a new blog'
       })
     }
-    this.forceUpdate()    
+    
+    this.createBlog.toggleVisibility()    
     setTimeout(() => {
       this.setState({message: null})
     }, 5000)
@@ -96,12 +97,12 @@ class App extends React.Component {
       <div>
       <Notification message={this.state.message}/>   
       {this.state.user === null ?
-      <Togglable buttonLabel="Login">
+      <Togglable buttonLabel="Login" ref={component => this.noteForm = component}>
       <LoginForm username={this.state.username} handleFieldChange={this.handleFieldChange}
         password={this.state.password} login={this.login} /></Togglable> :
       <div>
         <p>{this.state.user.name} logged in</p> <form onSubmit={this.logout}><button type="submit" name="logout">Log out </button></form>
-        <Togglable buttonLabel="Create blog"><CreateBlog createNew={this.createNew} handleFieldChange={this.handleFieldChange} 
+        <Togglable buttonLabel="Create blog" ref={component => this.createBlog = component}><CreateBlog createNew={this.createNew} handleFieldChange={this.handleFieldChange} 
           title={this.state.title} author={this.state.author} url={this.state.url} /></Togglable>
         <BlogForm blogs={this.state.blogs} />
       </div>}
