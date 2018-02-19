@@ -6,7 +6,8 @@ class Blog extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      blog: this.props.blog
+      blog: this.props.blog,
+      user: this.props.blog.user.name
     }
   }
 
@@ -39,13 +40,15 @@ class Blog extends React.Component {
       borderWidth: 1,
       marginBottom: 5
     }
+
     return (
     
     <div key={this.state.blog.id} style={blogStyle}>  
       <div>{this.state.blog.title}</div>
+      <div>{this.state.blog.author}</div>
       <div><a href={this.state.blog.url}>{this.state.blog.url}</a></div>
       <div>{this.state.blog.likes} <button onClick={this.likeBlog}>Like</button></div>
-      <div>Added by {this.state.blog.author}</div>     
+      <div>Added by {this.state.user}</div>
     </div>
     
     )
