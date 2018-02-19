@@ -10,6 +10,8 @@ class TogglableBlog extends React.Component {
 
   toggleVisibility = () => {
     this.setState({visible: !this.state.visible})
+
+    console.log(this.props.children)
   }
 
   render() {
@@ -22,8 +24,8 @@ class TogglableBlog extends React.Component {
           <a href='#' onClick={this.toggleVisibility}>{this.props.title}</a>
         </div>
         <div style={showWhenVisible}>
-          {this.props.children}
-          <button onClick={this.toggleVisibility}>Like</button>
+          <a href='#' onClick={this.toggleVisibility}>{this.props.title}</a>
+          {this.props.children}          
         </div>
       </div>
     )

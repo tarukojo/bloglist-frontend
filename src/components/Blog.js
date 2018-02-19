@@ -23,7 +23,7 @@ class Blog extends React.Component {
     <div style={blogStyle}>  
       <div>{this.state.blog.title}</div>
       <div><a href={this.state.blog.url}>{this.state.blog.url}</a></div>
-      <div>{this.state.blog.likes}</div>
+      <div>{this.state.blog.likes} <button>Like</button></div>
       <div>Added by {this.state.blog.author}</div>     
     </div>
     
