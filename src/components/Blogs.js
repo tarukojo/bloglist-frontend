@@ -8,7 +8,7 @@
         <h2>Blogs</h2>
 
           {blogs.map(blog => 
-            <TogglableBlog key={blog.id} title={blog.title} blog={blog} ref={component => this.blogKey = component}>
+            <TogglableBlog key={blog.id} title={blog.title} blog={blog}>
             <Blog key={blog._id} blog={blog}/>
             </TogglableBlog>
           )}
