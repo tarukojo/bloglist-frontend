@@ -7,7 +7,8 @@ class TogglableBlog extends React.Component {
     this.state = {
       visible: false,
       deleted: false,
-      blog: this.props.id
+      blog: this.props.blog,
+      user: JSON.parse(window.localStorage.getItem('loggedBlogappUser'))
     }
   }
 
@@ -18,30 +19,47 @@ class TogglableBlog extends React.Component {
 
   deleteBlog = (event) => {
     event.preventDefault()
+    console.log(this.state.blog.id)
     try {
-      console.log(this.state.blog)
-      blogService.deleteBlog(this.state.blog)
+      console.log(this.state.blog.id)
+      blogService.deleteBlog(this.state.blog.id)
       this.setState({ deleted: true })
     } catch (exception) {
       console.log(exception)
     }
   }
 
+  hasRights = () => {
+    /*console.log('hasrights()')
+    console.log('user:', this.state.blog.user._id)
+    console.log('logged in user:', this.state.user.id)
+    */
+    if (this.state.blog.user !== undefined && this.state.blog.user._id.length > 0) {
+      if (this.state.user.id === this.state.blog.user._id) {
+        return true
+      } else {
+        return false
+      }
+    }
+    return true
+  }
+
   render() {
     const hideWhenVisible = { display: this.state.visible ? 'none' : (this.state.deleted ? 'none' : '') }
     const showWhenVisible = { display: this.state.visible ? (this.state.deleted ? 'none' : '') : 'none' }
     const hideWhenDeleted = { display: this.state.deleted ? 'none' : '' }
-
     
+    const showDelete = { display: this.hasRights() ? '' : 'none' }
+
     return (
-      <div key={this.props.id} style={hideWhenDeleted}>
+      <div key={this.props.blog.id} style={hideWhenDeleted}>
         <div style={hideWhenVisible}>
           <a href='#' onClick={this.toggleVisibility}>{this.props.title}</a>
         </div>
         <div style={showWhenVisible}>
           <a href='#' onClick={this.toggleVisibility}>{this.props.title}</a>
           {this.props.children}  
-          <div><button onClick={this.deleteBlog}>Delete</button></div>        
+          <div style={showDelete}><button onClick={this.deleteBlog}>Delete</button></div>        
         </div>
       </div>
     )
