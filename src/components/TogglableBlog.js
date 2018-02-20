@@ -1,5 +1,6 @@
 import React from 'react'
 import blogService from './../services/blogs'
+import PropTypes from 'prop-types'
 
 class TogglableBlog extends React.Component {
   constructor(props) {
@@ -64,6 +65,11 @@ class TogglableBlog extends React.Component {
       </div>
     )
   }
+}
+
+TogglableBlog.propTypes = {
+  title: PropTypes.string.isRequired,
+  blog: PropTypes.object.isRequired
 }
 
 export default TogglableBlog;
