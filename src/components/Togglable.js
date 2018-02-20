@@ -17,9 +17,13 @@ class Togglable extends React.Component {
     const hideWhenVisible = { display: this.state.visible ? 'none' : '' }
     const showWhenVisible = { display: this.state.visible ? '' : 'none' }
 
+    const loginButtonDiv = {
+      margin: 10
+    }
+
     return (
       <div>
-        <div style={hideWhenVisible}>
+        <div style={hideWhenVisible} className="loginButtonDiv">
           <button onClick={this.toggleVisibility}>{this.props.buttonLabel}</button>
         </div>
         <div style={showWhenVisible}>

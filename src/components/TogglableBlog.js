@@ -57,7 +57,7 @@ class TogglableBlog extends React.Component {
         <div style={hideWhenVisible}>
           <a href='#' onClick={this.toggleVisibility}>{this.props.title}</a>
         </div>
-        <div style={showWhenVisible}>
+        <div style={showWhenVisible} className='togglableContent'>
           <a href='#' onClick={this.toggleVisibility}>{this.props.title}</a>
           {this.props.children}  
           <div style={showDelete}><button onClick={this.deleteBlog}>Delete</button></div>        
