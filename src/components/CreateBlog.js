@@ -1,40 +1,33 @@
 import React from 'react'
+import { FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap'
 
 const CreateBlog = ({createNew, handleFieldChange, title, author, url}) => (
     <div>
       <h2>Create New Blog</h2>
   
       <form onSubmit={createNew}>
-        <div>
-          <div>Title:</div> 
-          <input
-            type="text"
+      <FormGroup>
+      <ControlLabel>Title:</ControlLabel>
+        <FormControl
             name="title"
             value={title}
             onChange={handleFieldChange}
           />
-        </div>
-        <div>
-          <div>Author:</div> 
-          <input
-            type="text"
+        <ControlLabel>Author:</ControlLabel> 
+        <FormControl
             name="author"
             value={author}
             onChange={handleFieldChange}
           />
-        </div>
-        <div>
-          <div>Url:</div> 
-          <input
-            type="text"
+        <ControlLabel>Url:</ControlLabel> 
+        <FormControl
             name="url"
             value={url}
             onChange={handleFieldChange}
           />
-        </div>
-        <div>
-        <button type="submit">Create</button>
-        </div>
+          <p/>
+          <Button bsStyle="success" type="submit">Create</Button>
+          </FormGroup>
       </form>
     </div>
   )

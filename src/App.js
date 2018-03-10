@@ -11,7 +11,7 @@ import userService from './services/users'
 import Users from './components/Users'
 import User from './components/User'
 import Blog from './components/Blog'
-import { Navbar, Nav, NavItem } from 'react-bootstrap'
+import { Navbar, Nav, NavItem, Button } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { handleSubmitMessage } from './reducers/notificationReducer'
 import { blogInitialization } from './reducers/blogReducer'
@@ -157,7 +157,7 @@ class App extends React.Component {
         <LoginForm username={this.state.username} handleFieldChange={this.handleFieldChange}
           password={this.state.password} login={this.login} /></Togglable> :
         <div>
-          <p>{this.state.user.name} logged in</p> <form onSubmit={this.logout}><button type="submit" name="logout">Log out </button></form>
+          <p>{this.state.user.name} logged in</p> <form onSubmit={this.logout}><Button type="submit" name="logout">Log out </Button></form>
           <Togglable buttonLabel="Create blog" ref={component => this.createBlog = component}><CreateBlog createNew={this.createNew} handleFieldChange={this.handleFieldChange} 
             title={this.state.title} author={this.state.author} url={this.state.url} /></Togglable>
           <Router>

@@ -2,24 +2,23 @@ import React from 'react'
 import Blog from './Blog'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { ListGroup, ListGroupItem, PageHeader } from 'react-bootstrap'
 
 class BlogForm extends React.Component {
     render() {
         const blogs = this.props.blogs
         return (
         <div>
-          
-            <h2>Blogs</h2>
-              <table><tbody>
+            <PageHeader>Blogs</PageHeader>
+            <ListGroup>
               {blogs.map(blog => 
-                <tr key='${blog.id}'><td>
-                <Link to={`/blogs/${blog.id}`}>
-                {blog.title} {blog.author}
-                </Link>
-                </td></tr>
+                 <ListGroupItem key='${blog.id}'>
+                  <Link to={`/blogs/${blog.id}`}>
+                  {blog.title} {blog.author}
+                  </Link>
+                </ListGroupItem>
               )}
-              </tbody></table>
-
+              </ListGroup>
           </div>
         )
     }
