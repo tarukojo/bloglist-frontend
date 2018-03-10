@@ -36,7 +36,7 @@ class TogglableBlog extends React.Component {
     console.log('logged in user:', this.state.user.id)
     */
     if (this.state.blog.user !== undefined && this.state.blog.user._id.length > 0) {
-      if (this.state.user.id === this.state.blog.user._id) {
+      if (this.state.user !== null && this.state.user.id === this.state.blog.user._id) {
         return true
       } else {
         return false

@@ -28,12 +28,10 @@ describe.skip('<TogglableBlog />', () => {
     })
     
     it('after clicking the button, children are displayed', () => {
-        const button = togglableComponent.find('a')
+        const link = togglableComponent.find('.hiddenBlogs')
     
-        button.at(0).simulate('click')
+        link.simulate('click')
         const div = togglableComponent.find('.togglableContent')
         expect(div.getElement().props.style).toEqual({ display: '' })
     })
-    
-
 })

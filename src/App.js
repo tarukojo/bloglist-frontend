@@ -6,6 +6,9 @@ import CreateBlog from './components/CreateBlog'
 import loginService from './services/login'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import userService from './services/users'
+import Users from './components/Users'
 
 class App extends React.Component {
   constructor(props) {
@@ -18,7 +21,8 @@ class App extends React.Component {
       title: '',
       author: '', 
       url: '',
-      message: ''
+      message: '',
+      users: []
     }
   }
 
@@ -29,6 +33,8 @@ class App extends React.Component {
         return b.likes - a.likes
       })
       this.setState({ blogs })
+      const users = await userService.getAllUsers()
+      this.setState({ users })
     } catch (exception) {
       this.setState({
         error: 'Username or/and password is wrong',
@@ -107,18 +113,24 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
-      <Notification message={this.state.message}/>   
-      {this.state.user === null ?
-      <Togglable buttonLabel="Login" ref={component => this.noteForm = component}>
-      <LoginForm username={this.state.username} handleFieldChange={this.handleFieldChange}
-        password={this.state.password} login={this.login} /></Togglable> :
-      <div>
-        <p>{this.state.user.name} logged in</p> <form onSubmit={this.logout}><button type="submit" name="logout">Log out </button></form>
-        <Togglable buttonLabel="Create blog" ref={component => this.createBlog = component}><CreateBlog createNew={this.createNew} handleFieldChange={this.handleFieldChange} 
-          title={this.state.title} author={this.state.author} url={this.state.url} /></Togglable>
-        <BlogForm blogs={this.state.blogs}/>
-      </div>}
+      <div>  
+        <Notification message={this.state.message}/>   
+        {this.state.user === null ?
+        <Togglable buttonLabel="Login" ref={component => this.noteForm = component}>
+        <LoginForm username={this.state.username} handleFieldChange={this.handleFieldChange}
+          password={this.state.password} login={this.login} /></Togglable> :
+        <div>
+          <p>{this.state.user.name} logged in</p> <form onSubmit={this.logout}><button type="submit" name="logout">Log out </button></form>
+          <Togglable buttonLabel="Create blog" ref={component => this.createBlog = component}><CreateBlog createNew={this.createNew} handleFieldChange={this.handleFieldChange} 
+            title={this.state.title} author={this.state.author} url={this.state.url} /></Togglable>
+          <Router>
+            <div>
+            <Route exact path="/" render={() => <BlogForm blogs={this.state.blogs}/>} />
+            <Route exact path="/users" render={() => <Users users={this.state.users}/>} />
+            <Route exact path="/blogs" render={() => <BlogForm blogs={this.state.blogs}/>} />
+            </div>
+          </Router>
+        </div>}    
       </div>
     );
   }
