@@ -1,5 +1,6 @@
 import React from 'react'
 import blogService from './../services/blogs'
+import { BrowserRouter as Link } from 'react-router-dom'
 
 class Blog extends React.Component {
 
@@ -42,15 +43,13 @@ class Blog extends React.Component {
     }
 
     return (
-    
-    <div key={this.state.blog.id} style={blogStyle}>  
-      <div>{this.state.blog.title}</div>
-      <div>{this.state.blog.author}</div>
-      <div><a href={this.state.blog.url}>{this.state.blog.url}</a></div>
-      <div>{this.state.blog.likes} <button onClick={this.likeBlog}>Like</button></div>
-      <div>Added by {this.state.user}</div>
-    </div>
-    
+      <div key={this.state.blog.id} style={blogStyle}>  
+        <div>{this.state.blog.title}</div>
+        <div>{this.state.blog.author}</div>
+        <div><a href={this.state.blog.url}>{this.state.blog.url}</a></div>
+        <div>{this.state.blog.likes} <button onClick={this.likeBlog}>Like</button></div>
+        <div>Added by {this.state.user}</div>
+      </div>
     )
   }
 

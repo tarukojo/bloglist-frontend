@@ -11,9 +11,12 @@ export const blogCreation = (title, author, url) => {
     }
 }
 
-export const initializeBlogs = () => {
+export const blogInitialization = () => {
     return async (dispatch) => {
-      const blogs = await blogService.getAll()
+      const origBlogs = await blogService.getAll()
+      const blogs = origBlogs.sort(function(a, b) {
+        return b.likes - a.likes
+      })
       dispatch({
         type: 'INIT_BLOGS',
         data: blogs

@@ -14,6 +14,8 @@ import Blog from './components/Blog'
 import { Navbar, Nav, NavItem } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { handleSubmitMessage } from './reducers/notificationReducer'
+import { blogInitialization } from './reducers/blogReducer'
+import { userInitialization } from './reducers/userReducer'
   
 const Menu = () => (
   <Navbar inverse collapseOnSelect>
@@ -58,18 +60,11 @@ class App extends React.Component {
     }
   }
 
-  async componentDidMount() {
-
-    //this.props.initializeBlogs()
-
+  componentDidMount = async () => {
     try {
-      const origBlogs = await blogService.getAll() 
-      const blogs = origBlogs.sort(function(a, b) {
-        return b.likes - a.likes
-      })
-      this.setState({ blogs })
-      const users = await userService.getAllUsers()
-      this.setState({ users })
+      this.props.blogInitialization()
+
+      this.props.userInitialization()
     } catch (exception) {
       this.setState({
         error: 'Username or/and password is wrong',
@@ -78,7 +73,6 @@ class App extends React.Component {
         this.setState({ error: null })
       }, 5000)
     }
-   
 
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
@@ -88,7 +82,7 @@ class App extends React.Component {
       blogService.setToken(user.token)
     }
   }
-  
+
   handleFieldChange = (event) => {
     console.log("test ", event.target.value)
     this.setState({ [event.target.name]: event.target.value })
@@ -149,10 +143,10 @@ class App extends React.Component {
   }
 
   userById = (id) => 
-    this.state.users.find(u => u.id === id)
+    this.props.users.find(u => u.id === id)
 
   blogById = (id) =>
-    this.state.blogs.find(b => b.id === id)
+    this.props.blogs.find(b => b.id === id)
   
   render() {
     return (
@@ -172,8 +166,8 @@ class App extends React.Component {
               <Menu />
             </div>
             <Route exact path="/" render={() => <BlogForm blogs={this.state.blogs}/>} />
-            <Route exact path="/users" render={() => <Users users={this.state.users}/>} />
-            <Route exact path="/blogs" render={() => <BlogForm blogs={this.state.blogs}/>} />
+            <Route exact path="/users" render={() => <Users />} />
+            <Route exact path="/blogs" render={() => <BlogForm />} />
             <Route exact path="/users/:id" render={({match}) =>
               <User user={this.userById(match.params.id)} />}/>
             <Route exact path="/blogs/:id" render={({match}) =>
@@ -186,7 +180,14 @@ class App extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    blogs: state.blogs,
+    users: state.users
+  }
+}
+
 export default connect(
-  null,
-  { handleSubmitMessage }
+  mapStateToProps,
+  { handleSubmitMessage, blogInitialization, userInitialization }
 )(App)
