@@ -1,17 +1,20 @@
   import React from 'react'
   import Blog from './Blog'
-  import TogglableBlog from './TogglableBlog';
+  import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
   const BlogForm = ({blogs, user}) => (
     <div>
       
         <h2>Blogs</h2>
-
+          <table><tbody>
           {blogs.map(blog => 
-            <TogglableBlog key={blog.id} title={blog.title} blog={blog}>
-            <Blog key={blog._id} blog={blog}/>
-            </TogglableBlog>
+            <tr key='${blog._id}'><td>
+            <Link to={`/blogs/${blog.id}`}>
+            {blog.title} {blog.author}
+            </Link>
+            </td></tr>
           )}
+          </tbody></table>
 
       </div>
   )

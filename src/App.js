@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import userService from './services/users'
 import Users from './components/Users'
 import User from './components/User'
+import Blog from './components/Blog'
 
 class App extends React.Component {
   constructor(props) {
@@ -115,6 +116,9 @@ class App extends React.Component {
   userById = (id) => 
     this.state.users.find(u => u.id === id)
 
+  blogById = (id) =>
+    this.state.blogs.find(b => b.id === id)
+  
   render() {
     return (
       <div>  
@@ -134,6 +138,8 @@ class App extends React.Component {
             <Route exact path="/blogs" render={() => <BlogForm blogs={this.state.blogs}/>} />
             <Route exact path="/users/:id" render={({match}) =>
               <User user={this.userById(match.params.id)} />}/>
+            <Route exact path="/blogs/:id" render={({match}) =>
+              <Blog blog={this.blogById(match.params.id)} />}/>
             </div>
           </Router>
         </div>}    
