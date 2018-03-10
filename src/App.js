@@ -9,6 +9,7 @@ import Togglable from './components/Togglable'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import userService from './services/users'
 import Users from './components/Users'
+import User from './components/User'
 
 class App extends React.Component {
   constructor(props) {
@@ -111,6 +112,9 @@ class App extends React.Component {
     }, 5000)
   }
 
+  userById = (id) => 
+    this.state.users.find(u => u.id === id)
+
   render() {
     return (
       <div>  
@@ -128,6 +132,8 @@ class App extends React.Component {
             <Route exact path="/" render={() => <BlogForm blogs={this.state.blogs}/>} />
             <Route exact path="/users" render={() => <Users users={this.state.users}/>} />
             <Route exact path="/blogs" render={() => <BlogForm blogs={this.state.blogs}/>} />
+            <Route exact path="/users/:id" render={({match}) =>
+              <User user={this.userById(match.params.id)} />}/>
             </div>
           </Router>
         </div>}    
