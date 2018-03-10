@@ -12,6 +12,8 @@ import Users from './components/Users'
 import User from './components/User'
 import Blog from './components/Blog'
 import { Navbar, Nav, NavItem } from 'react-bootstrap'
+import { connect } from 'react-redux'
+import { handleSubmitMessage } from './reducers/notificationReducer'
   
 const Menu = () => (
   <Navbar inverse collapseOnSelect>
@@ -57,6 +59,9 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
+
+    //this.props.initializeBlogs()
+
     try {
       const origBlogs = await blogService.getAll() 
       const blogs = origBlogs.sort(function(a, b) {
@@ -73,7 +78,8 @@ class App extends React.Component {
         this.setState({ error: null })
       }, 5000)
     }
-    
+   
+
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
@@ -126,9 +132,10 @@ class App extends React.Component {
     try {   
       blogService.create({ 'title': this.state.title, 'author': this.state.author, 'url': this.state.url })
 
-      blogService.getAll().then(blogs =>
-        this.setState({ blogs: blogs, message: 'Created new blog'})
-      )
+      blogService.getAll().then(blogs => {
+        this.setState({ blogs: blogs})
+        this.props.handleSubmitMessage('New message created:'+ this.state.title)
+      })
     } catch (exception) {
       this.setState({
         error: 'Cannot create a new blog'
@@ -137,7 +144,7 @@ class App extends React.Component {
     
     this.createBlog.toggleVisibility()    
     setTimeout(() => {
-      this.setState({message: null})
+      this.props.handleSubmitMessage('')
     }, 5000)
   }
 
@@ -150,8 +157,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="container"> 
-
-        <Notification message={this.state.message}/>   
+        <Notification />   
         {this.state.user === null ?
         <Togglable buttonLabel="Login" ref={component => this.noteForm = component}>
         <LoginForm username={this.state.username} handleFieldChange={this.handleFieldChange}
@@ -180,4 +186,7 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default connect(
+  null,
+  { handleSubmitMessage }
+)(App)
