@@ -6,11 +6,39 @@ import CreateBlog from './components/CreateBlog'
 import loginService from './services/login'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom'
 import userService from './services/users'
 import Users from './components/Users'
 import User from './components/User'
 import Blog from './components/Blog'
+import { Navbar, Nav, NavItem } from 'react-bootstrap'
+  
+const Menu = () => (
+  <Navbar inverse collapseOnSelect>
+  <Navbar.Header>
+    <Navbar.Brand>
+      Blog List App
+    </Navbar.Brand>
+    <Navbar.Toggle />
+  </Navbar.Header>
+  <Navbar.Collapse>
+    <Nav>
+      <NavItem href="#">   
+        <NavLink to="/blogs" activeStyle={{
+          fontWeight: 'bold',
+          color: 'red'
+        }}>Blogs</NavLink>&nbsp;
+      </NavItem>
+      <NavItem href="#">
+        <NavLink to="/users" activeStyle={{
+          fontWeight: 'bold',
+          color: 'red'
+        }}>Users</NavLink>&nbsp;
+      </NavItem>
+    </Nav>
+  </Navbar.Collapse>
+</Navbar>
+)
 
 class App extends React.Component {
   constructor(props) {
@@ -121,7 +149,8 @@ class App extends React.Component {
   
   render() {
     return (
-      <div>  
+      <div className="container"> 
+
         <Notification message={this.state.message}/>   
         {this.state.user === null ?
         <Togglable buttonLabel="Login" ref={component => this.noteForm = component}>
@@ -133,6 +162,9 @@ class App extends React.Component {
             title={this.state.title} author={this.state.author} url={this.state.url} /></Togglable>
           <Router>
             <div>
+            <div>
+              <Menu />
+            </div>
             <Route exact path="/" render={() => <BlogForm blogs={this.state.blogs}/>} />
             <Route exact path="/users" render={() => <Users users={this.state.users}/>} />
             <Route exact path="/blogs" render={() => <BlogForm blogs={this.state.blogs}/>} />
